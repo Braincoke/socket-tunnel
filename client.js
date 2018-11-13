@@ -13,7 +13,7 @@ module.exports = (options) => {
       console.log(new Date() + ': connected');
       console.log(new Date() + ': requesting subdomain ' + options['subdomain'] + ' via ' + options['server']);
 
-      socket.emit('createTunnel', options['subdomain'], (err) => {
+      socket.emit('createTunnel', options['subdomain'], options['password'], (err) => {
         if (err) {
           console.log(new Date() + ': [error] ' + err);
 

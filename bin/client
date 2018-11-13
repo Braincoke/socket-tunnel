@@ -20,6 +20,10 @@ let argv = optimist
     alias: 'port',
     describe: '(Required) Port of local server for forwarding over socket-tunnel'
   })
+  .options('pwd', {
+    alias: 'password',
+    describe: '(Required) Secret shared with the server to authenticate the resource allocation'
+  })
   .argv;
 
 if (argv.help) {
@@ -27,8 +31,8 @@ if (argv.help) {
   process.exit();
 }
 
-if (!argv['server'] || !argv['subdomain'] || !argv['port']) {
-  for (var key in ['server', 'subdomain', 'port']) {
+if (!argv['server'] || !argv['subdomain'] || !argv['port'] || !argv['password']) {
+  for (var key in ['server', 'subdomain', 'port', 'password']) {
     if (argv[key]) continue;
 
     console.log('Error: Required option, but nothing found');

@@ -18,6 +18,11 @@ var argv = optimist
     default: '',
     describe: 'Name of subdomain used. Required when server listens on a subdomain (leave blank otherwise)'
   })
+  .options('pwd', {
+    alias: 'password',
+    default: 'hc3ml03xP20AAbD903Fx9WYdv5c707xan',
+    describe: 'The secret share between the client and the server to allow resource allocation'
+  })
   .argv;
 
 if (argv.help) {

@@ -139,7 +139,7 @@ module.exports = (options) => {
   // socket.io instance
   let io = require('socket.io')(server);
   io.on('connection', (socket) => {
-    socket.on('createTunnel', (requestedName, responseCb) => {
+    socket.on('createTunnel', (requestedName, password, responseCb) => {
       if (socket.requestedName) {
         // tunnel has already been created
         return;
@@ -147,6 +147,15 @@ module.exports = (options) => {
 
       // domains are case insensitive
       let reqNameNormalized = requestedName.toString().toLowerCase().replace(/[^0-9a-z-]/g, '');
+
+      // authenticate the request
+      if (password != options['password']) {
+        console.log(new Date() + ': ' + reqNameNormalized + ' -- invalid password. disconnecting client.');
+        if (responseCb) {
+          responseCb('invalid password');        
+        }
+        return socket.disconnect();
+      }
 
       // make sure the client is requesting a valid subdomain
       if (reqNameNormalized.length === 0 || !isValidDomain(`${reqNameNormalized}.example.com`)) {
